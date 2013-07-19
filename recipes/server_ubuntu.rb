@@ -17,23 +17,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # 
-
-apt_repository "plexapp" do
-  uri "http://plexapp.com/repo"
-  distribution "lucid"
-  components ["main"]
-  action :add
+package "avahi-daemon" do 
 end
-
-package "plex-archive-keyring" do
-  options "--force-yes"
+package "avahi-utils" do
+end
+deb_version = ['i386', 'i686'].include?(node[:kernel][:machine]) ? "i386" : "amd64"
+download_path = File.join(Chef::Config[:file_cache_path],node["plexapp"][deb_version][/http:\/\/.*\/(.*deb)/, 1])
+remote_file download_path do
+  source node["plexapp"][deb_version]
+  action :create_if_missing
+end
+dpkg_package download_path do 
   action :install
-  notifies :run, "execute[apt-get update]", :immediately
-end
-
-package "plexmediaserver"
-
-service "plexmediaserver" do
-  provider Chef::Provider::Service::Upstart
-  action [:enable, :start]
 end
