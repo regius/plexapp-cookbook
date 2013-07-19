@@ -8,34 +8,13 @@ This cookbook installs and configures Plex Media Server.
 
 Currently supported platforms:
 
-* Ubuntu 12.04
+* Ubuntu 12.04 (both 32 or 64 bits)
 
 # Installation
-
-You should install the cookbook from the Opscode Chef Community site,
-not directly from the git repository. The git repository may contain
-changes that are untested.
-
-## knife
-
-Download and extract the cookbook in your cookbooks directory.
-
-    knife cookbook site download plexapp
-    tar -zxvf plexapp-*.tar.gz -C cookbooks
-
-Or, if you use the "vendor branch" workflow:
-
-    knife cookbook site install plexapp
 
 ## Berkshelf
 
 In your top-level Chef repository Berksfile:
-
-    cookbook "plexapp"
-
-## Librarian Chef
-
-In your Chef repository Cheffile:
 
     cookbook "plexapp"
 
@@ -45,7 +24,6 @@ Modify the attributes as required in a role or wrapper cookbook, and
 add the default recipe to the run list. For example, I have a
 "plex-server" role that looks like this:
 
-    name "plex-server"
     run_list("recipe[plexapp]")
 
 # Recipes
@@ -58,12 +36,6 @@ using upstart.
 ## default
 
 Includes the appropriate recipe based on `node['platform']`.
-
-# Roadmap
-
-* Support additional platforms. Plex Media Server itself supports
-  Fedora, CentOS, Mac OS X and Windows.
-* Support client installation.
 
 # Contributing
 
